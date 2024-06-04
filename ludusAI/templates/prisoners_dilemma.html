@@ -1,0 +1,55 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+
+function PrisonersDilemma() {
+    const [strategy1, setStrategy1] = useState('tit_for_tat');
+    const [strategy2, setStrategy2] = useState('always_cooperate');
+    const [result, setResult] = useState(null);
+
+    const playGame = () => {
+        axios.get('/api/play_prisoners_dilemma', {
+            params: { strategy1, strategy2, rounds: 100 }
+        }).then(response => {
+            setResult(response.data);
+        });
+    };
+
+    return (
+        <div>
+            <h1>Prisoner's Dilemma</h1>
+            <div>
+                <label>Strategy 1:
+                    <select value={strategy1} onChange={(e) => setStrategy1(e.target.value)}>
+                        <option value="tit_for_tat">Tit-for-Tat</option>
+                        <option value="always_cooperate">Always Cooperate</option>
+                        <option value="always_defect">Always Defect</option>
+                        <option value="random_strategy">Random</option>
+                        <option value="q_strategy">Q-Learning</option>
+                    </select>
+                </label>
+            </div>
+            <div>
+                <label>Strategy 2:
+                    <select value={strategy2} onChange={(e) => setStrategy2(e.target.value)}>
+                        <option value="tit_for_tat">Tit-for-Tat</option>
+                        <option value="always_cooperate">Always Cooperate</option>
+                        <option value="always_defect">Always Defect</option>
+                        <option value="random_strategy">Random</option>
+                        <option value="q_strategy">Q-Learning</option>
+                    </select>
+                </label>
+            </div>
+            <button onClick={playGame}>Play</button>
+            {result && 
+                <div>
+                    <p>Score 1: {result.score1}</p>
+                    <p>Score 2: {result.score2}</p>
+                    <p>History 1: {result.history1.join(' ')}</p>
+                    <p>History 2: {result.history2.join(' ')}</p>
+                </div>
+            }
+        </div>
+    );
+}
+
+export default PrisonersDilemma;
