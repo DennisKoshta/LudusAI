@@ -16,12 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import PlayPrisonersDilemma
+from .views import PlayPrisonersDilemma, index
 from django.views.generic import TemplateView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/play_prisoners_dilemma/', PlayPrisonersDilemma.as_view(), name='play_prisoners_dilemma'),
-    path('api/play_prisoners_dilemma/', PlayPrisonersDilemma.as_view(), name='play_prisoners_dilemma'),
-    path('', TemplateView.as_view(template_name="index.html"), name='home'),
+    path('', TemplateView.as_view(template_name="index.html"), name='index'),
+    # path('', index, name='home'),
 ]
